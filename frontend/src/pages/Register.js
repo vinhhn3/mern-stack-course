@@ -1,10 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaUsers } from "react-icons/fa";
 
 const Register = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const { name, email, password, password2 } = formData;
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div>
-      <h1>Register</h1>
-    </div>
+    <>
+      <section className="heading">
+        <h1>
+          <FaUsers />
+          Register
+        </h1>
+        <p>Create Account</p>
+      </section>
+      <section className="form">
+        <div className="form-group">
+          <form>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={name}
+              placeholder="Enter name ..."
+              onChange={onChange}
+            />
+          </form>
+        </div>
+        <div className="form-group">
+          <form>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              value={email}
+              placeholder="Enter email ..."
+              onChange={onChange}
+            />
+          </form>
+        </div>{" "}
+        <div className="form-group">
+          <form>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              name="password"
+              value={password}
+              placeholder="Enter password ..."
+              onChange={onChange}
+            />
+          </form>
+        </div>{" "}
+        <div className="form-group">
+          <form>
+            <input
+              type="password"
+              className="form-control"
+              id="password2"
+              name="password2"
+              value={password2}
+              placeholder="Re-type password ..."
+              onChange={onChange}
+            />
+          </form>
+        </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-block" onSubmit={onSubmit}>
+            Submit
+          </button>
+        </div>
+      </section>
+    </>
   );
 };
 

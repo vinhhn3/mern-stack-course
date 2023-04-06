@@ -21,7 +21,7 @@ const Header = () => {
         </li>
         <li>
           <Link to="/register">
-            <FaUser /> Logout
+            <FaUser /> Register
           </Link>
         </li>
       </ul>
