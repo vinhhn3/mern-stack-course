@@ -1,10 +1,19 @@
 import React from "react";
-
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 function App() {
   return (
-    <div>
-      <h1>My App</h1>
-    </div>
+    <Router>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
