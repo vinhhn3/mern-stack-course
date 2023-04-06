@@ -14,7 +14,6 @@ const protect = asyncHandler(async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       req.user = await User.findById(decoded.id).select("-password");
-
       next();
     } catch (error) {
       console.log(error);
@@ -28,4 +27,13 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { protect };
+const roleUser = asyncHandler(async (req, res, next) => {
+  console.log(req.user.role[0]);
+  if (req.user.role[0] === "user") next();
+  else {
+    res.status(401);
+    throw new Error("Not authorized");
+  }
+});
+
+module.exports = { protect, roleUser };
