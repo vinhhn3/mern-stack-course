@@ -25,12 +25,18 @@ const registerUser = asyncHandler(async (req, res) => {
     role,
   });
 
+  const token = generateToken(user.id);
+
   if (user) {
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 2 * 1000, //convert 2h to ms; maxAge uses miliseconds
+    });
     res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user.id),
+      token: token,
       role: user.role,
     });
   } else {
@@ -43,12 +49,18 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
 
+  const token = generateToken(user.id);
+
   if (user && (await bcrypt.compare(password, user.password))) {
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 2 * 1000, //convert 2h to ms; maxAge uses miliseconds
+    });
     res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id),
+      token: token,
     });
   } else {
     res.status(400);
