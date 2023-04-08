@@ -39,7 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: token,
-      role: user.role,
+      role: user.role[0],
     });
   } else {
     res.status(400);
@@ -62,6 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: token,
+      role: user.role[0],
     });
   } else {
     res.status(400);

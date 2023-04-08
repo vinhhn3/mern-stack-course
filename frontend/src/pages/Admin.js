@@ -2,24 +2,22 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Admin = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!user || user.role === "admin") {
+    if (!user || user.role === "user") {
       navigate("/login");
     }
   }, [user, navigate]);
 
   return (
-    <>
-      <section className="heading">
-        <h1>Welcome {user && user.name}</h1>
-        <p>Goals Dashboard</p>
-      </section>
-    </>
+    <div>
+      <h1>Welcome {user && user.name}</h1>
+    </div>
   );
 };
 
-export default Dashboard;
+export default Admin;
