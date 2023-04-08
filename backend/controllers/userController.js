@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
     role,
   });
 
-  const token = generateToken(user.id);
+  const token = generateToken(user._id);
 
   if (user) {
     res.cookie("jwt", token, {
@@ -50,7 +50,6 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
-
   const token = generateToken(user.id);
 
   if (user && (await bcrypt.compare(password, user.password))) {
@@ -71,13 +70,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user.id);
-
-  return res.status(200).json({
-    id: _id,
-    name: name,
-    email: email,
-  });
+  return res.status(200).json(req.user);
 });
 
 const generateToken = (id) => {
