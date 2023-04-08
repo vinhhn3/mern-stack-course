@@ -5,7 +5,7 @@ const Goal = require("../models/goal");
 
 const getGoals = asyncHandler(async (req, res) => {
   const goals = await Goal.find({ user: req.user.id });
-  res.status(200).json(goals);
+  return res.status(200).json(goals);
 });
 
 const setGoal = asyncHandler(async (req, res) => {
@@ -16,7 +16,7 @@ const setGoal = asyncHandler(async (req, res) => {
 
   const goal = await Goal.create({ text: req.body.text, user: req.user.id });
 
-  res.status(201).json(goal);
+  return res.status(201).json(goal);
 });
 
 const updateGoal = asyncHandler(async (req, res) => {
@@ -26,15 +26,12 @@ const updateGoal = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Goal not found");
   }
-
-  const user = await User.findById(req.user.id);
-
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error("User not found");
   }
 
-  if (goal.user.toString() !== user.id) {
+  if (goal.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error("User not found");
   }
@@ -42,7 +39,7 @@ const updateGoal = asyncHandler(async (req, res) => {
   const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  res.status(200).json(updatedGoal);
+  return res.status(200).json(updatedGoal);
 });
 
 const deleteGoal = asyncHandler(async (req, res) => {
@@ -54,20 +51,18 @@ const deleteGoal = asyncHandler(async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  const user = await User.findById(req.user.id);
-
-  if (!user) {
+  if (!req.user) {
     res.status(401);
     throw new Error("User not found");
   }
 
-  if (goal.user.toString() !== user.id) {
+  if (goal.user.toString() !== req.user.id) {
     res.status(401);
     throw new Error("User not found");
   }
 
   await Goal.deleteOne({ _id: goal.id });
-  res.status(200).json({ id: req.params.id });
+  return res.status(200).json({ _id: req.params.id });
 });
 
 module.exports = { getGoals, setGoal, updateGoal, deleteGoal };
