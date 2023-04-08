@@ -11,6 +11,7 @@ npm i -D nodemon
 npx create-react-app frontend --template redux
 npm i react-router-dom
 npm i react-icons
+npm i axios react-toastify
 ```
 
 ## Concurrently

@@ -1,5 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUsers } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Spinner } from "../components/Spinner";
+import { register, reset } from "../features/auth/authSlice";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -7,19 +12,56 @@ const Register = () => {
     email: "",
     password: "",
     password2: "",
+    role: "user",
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, role } = formData;
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => (state = state.auth)
+  );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    console.log(formData);
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    if (password !== password2) {
+      toast.error("Passwords do not match");
+    } else {
+      const userData = {
+        name,
+        email,
+        password,
+        role,
+      };
+      dispatch(register(userData));
+    }
+
+    if (isLoading) {
+      return <Spinner />;
+    }
   };
 
   return (
@@ -72,7 +114,7 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <button type="submit" className="btn btn-block" onSubmit={onSubmit}>
+            <button type="submit" className="btn btn-block" onClick={onSubmit}>
               Submit
             </button>
           </div>

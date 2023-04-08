@@ -5,14 +5,16 @@ const User = require("../models/user");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
-
+  console.log(req.body);
   if (!email || !password || !name || !role) {
-    res.status(400).json({ message: "Invalid email or password or name" });
+    return res
+      .status(400)
+      .json({ message: "Invalid email or password or name" });
   }
 
   const userExists = await User.findOne({ email: email });
   if (userExists) {
-    res.status(400).json({ message: "User already exists" });
+    return res.status(400).json({ message: "User already exists" });
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -32,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       maxAge: 2 * 1000, //convert 2h to ms; maxAge uses miliseconds
     });
-    res.status(201).json({
+    return res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
@@ -56,7 +58,7 @@ const loginUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       maxAge: 2 * 1000, //convert 2h to ms; maxAge uses miliseconds
     });
-    res.status(201).json({
+    return res.status(201).json({
       _id: user.id,
       name: user.name,
       email: user.email,
@@ -71,7 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const getMe = asyncHandler(async (req, res) => {
   const { _id, name, email } = await User.findById(req.user.id);
 
-  res.status(200).json({
+  return res.status(200).json({
     id: _id,
     name: name,
     email: email,
