@@ -32,8 +32,8 @@ const Register = () => {
         <p>Create Account</p>
       </section>
       <section className="form">
-        <div className="form-group">
-          <form>
+        <form>
+          <div className="form-group">
             <input
               type="text"
               className="form-control"
@@ -43,10 +43,6 @@ const Register = () => {
               placeholder="Enter name ..."
               onChange={onChange}
             />
-          </form>
-        </div>
-        <div className="form-group">
-          <form>
             <input
               type="email"
               className="form-control"
@@ -56,10 +52,6 @@ const Register = () => {
               placeholder="Enter email ..."
               onChange={onChange}
             />
-          </form>
-        </div>{" "}
-        <div className="form-group">
-          <form>
             <input
               type="password"
               className="form-control"
@@ -69,10 +61,6 @@ const Register = () => {
               placeholder="Enter password ..."
               onChange={onChange}
             />
-          </form>
-        </div>{" "}
-        <div className="form-group">
-          <form>
             <input
               type="password"
               className="form-control"
@@ -82,13 +70,13 @@ const Register = () => {
               placeholder="Re-type password ..."
               onChange={onChange}
             />
-          </form>
-        </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-block" onSubmit={onSubmit}>
-            Submit
-          </button>
-        </div>
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-block" onSubmit={onSubmit}>
+              Submit
+            </button>
+          </div>
+        </form>
       </section>
     </>
   );
