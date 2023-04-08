@@ -33,9 +33,14 @@ const Login = () => {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
+    if (isSuccess && user.role === "user") {
       navigate("/");
     }
+
+    if (isSuccess && user.role === "admin") {
+      navigate("/admin");
+    }
+
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
