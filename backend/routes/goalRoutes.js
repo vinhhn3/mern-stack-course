@@ -8,9 +8,13 @@ const {
   getAllGoals,
 } = require("../controllers/goalController");
 
-const { protect, roleAdmin } = require("../middleware/authMiddleware");
+const {
+  protect,
+  roleAdmin,
+  roleUser,
+} = require("../middleware/authMiddleware");
 
-router.get("/", protect, getGoals);
+router.get("/", protect, roleUser, getGoals);
 router.get("/all", protect, roleAdmin, getAllGoals);
 
 router.post("/", protect, setGoal);
