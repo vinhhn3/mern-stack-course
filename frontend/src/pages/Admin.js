@@ -4,9 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
-  console.log(user);
   const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const { goals, isLoading, isError, message } = useSelector(
+    (state) => (state = state.goals)
+  );
+
   useEffect(() => {
     if (!user || user.role === "user") {
       navigate("/login");
