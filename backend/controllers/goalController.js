@@ -8,6 +8,11 @@ const getGoals = asyncHandler(async (req, res) => {
   return res.status(200).json(goals);
 });
 
+const getAllGoals = asyncHandler(async (req, res) => {
+  const goals = await Goal.find();
+  return res.status(200).json(goals);
+});
+
 const setGoal = asyncHandler(async (req, res) => {
   if (!req.body.text) {
     res.status(400);
@@ -65,4 +70,4 @@ const deleteGoal = asyncHandler(async (req, res) => {
   return res.status(200).json({ _id: req.params.id });
 });
 
-module.exports = { getGoals, setGoal, updateGoal, deleteGoal };
+module.exports = { getGoals, setGoal, updateGoal, deleteGoal, getAllGoals };

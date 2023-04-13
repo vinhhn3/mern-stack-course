@@ -6,13 +6,18 @@ import GoalForm from "../components/GoalForm";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const { goals, isLoading, isError, message } = useSelector(
+    (state) => (state = state.goals)
+  );
   const dispatch = useDispatch();
+
+  console.log(goals);
+
   useEffect(() => {
     if (!user || user.role === "admin") {
       navigate("/login");
     }
   }, [user, navigate]);
-
   return (
     <>
       <section className="heading">

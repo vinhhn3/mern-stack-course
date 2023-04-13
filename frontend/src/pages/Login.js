@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "../components/Spinner";
 import { login, reset } from "../features/auth/authSlice";
+import { getAllGoals, getMyGoals } from "../features/goals/goalSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -34,10 +35,12 @@ const Login = () => {
     }
 
     if (isSuccess && user.role === "user") {
+      dispatch(getMyGoals());
       navigate("/");
     }
 
     if (isSuccess && user.role === "admin") {
+      dispatch(getAllGoals());
       navigate("/admin");
     }
 

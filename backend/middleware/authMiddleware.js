@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 
 const protect = asyncHandler(async (req, res, next) => {
+  console.log(req.headers.authorization);
   let token;
   if (
     req.headers.authorization &&
@@ -36,4 +37,13 @@ const roleUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { protect, roleUser };
+const roleAdmin = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
+  if (req.user.role[0] === "admin") next();
+  else {
+    res.status(401);
+    throw new Error("Not authorized");
+  }
+});
+
+module.exports = { protect, roleUser, roleAdmin };
